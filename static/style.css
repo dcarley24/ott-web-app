@@ -1,0 +1,178 @@
+/* style.css */
+
+/* --- Base and Theme Variables --- */
+:root {
+    --sidebar-width: 250px;
+    --color-background-dark: #1a1a1a;
+    --color-background-medium: #2c2c2c;
+    --color-background-light: #3a3a3a;
+    --color-text-light: #f0f0f0;
+    --color-text-medium: #b0b0b0;
+    --color-accent-blue: #0d6efd;
+    --color-border: #444444;
+    --color-sidebar-bg: #222222;
+    --color-sidebar-text: #f0f0f0;
+    --color-sidebar-hover: #333333;
+}
+
+body {
+    background-color: var(--color-background-dark);
+    color: var(--color-text-light);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: var(--color-accent-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Sidebar and Main Content Layout --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--color-sidebar-bg);
+    padding: 3.5rem 1rem 1rem 1.5rem;
+    box-shadow: inset -1px 0 0 var(--color-border);
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.sidebar a {
+    display: block;
+    padding: 0.4rem 0;
+    color: var(--color-sidebar-text);
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: var(--color-sidebar-hover);
+}
+
+.main-wrapper {
+    flex-grow: 1;
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-wrapper.shifted {
+    margin-left: 0;
+}
+
+/* --- Toggle Button --- */
+.toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 101;
+    background-color: var(--color-background-light);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* --- Bootstrap Component Overrides --- */
+
+/* Tables */
+.table {
+    --bs-table-bg: var(--color-background-medium);
+    --bs-table-color: var(--color-text-light);
+    --bs-table-border-color: var(--color-border);
+    --bs-table-striped-bg: #2c3034;
+    --bs-table-hover-bg: #32383e;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    background-color: var(--color-background-light);
+    color: var(--color-text-light);
+    border-color: var(--color-border);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--color-background-light);
+    color: var(--color-text-light);
+    border-color: var(--color-accent-blue);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-label {
+    color: var(--color-text-medium);
+}
+
+/* List Groups */
+.list-group-item {
+    background-color: var(--color-background-medium);
+    color: var(--color-text-light);
+    border-color: var(--color-border);
+}
+
+/* Buttons */
+.btn-primary {
+    --bs-btn-bg: var(--color-accent-blue);
+    --bs-btn-border-color: var(--color-accent-blue);
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+}
+
+.btn-secondary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #6c757d;
+    --bs-btn-border-color: #6c757d;
+    --bs-btn-hover-bg: #5c636a;
+    --bs-btn-hover-border-color: #565e64;
+}
+
+/* Badges */
+.badge.bg-secondary {
+    background-color: var(--color-background-light) !important;
+    color: var(--color-text-medium) !important;
+}
+
+.badge.bg-light {
+    background-color: #495057 !important;
+    color: #fff !important;
+}
+
+/* Card Styling */
+.card {
+    background-color: var(--color-background-medium);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-light);
+}
+
+/* NEW: Placeholder Text Styling */
+.form-control::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--color-text-medium);
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--color-text-medium);
+}
+
+.form-control::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--color-text-medium);
+}

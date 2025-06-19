@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Schedule</h2>
+
+<a href="{{ url_for('play_channel', slug=slug) }}" class="btn btn-success mb-3">▶ Preview Channel Now</a>
+
+<form method="post" class="mb-4 border p-3">
+    <label>Type</label>
+    <select name="type" class="form-control mb-2" required>
+        <option value="vod">VOD</option>
+        <option value="live">Live</option>
+        <option value="ad">Ad Block</option>
+    </select>
+
+    <label>Label</label>
+    <input name="label" class="form-control mb-2">
+
+    <label>Start Time (UTC)</label>
+    <input type="datetime-local" name="start_time" class="form-control mb-2" required>
+
+    <label>End Time (UTC)</label>
+    <input type="datetime-local" name="end_time" class="form-control mb-2" required>
+
+    <label>Video (for VOD only)</label>
+    <select name="video_id" class="form-control mb-2">
+        <option value="">-- None --</option>
+        {% for v in videos %}
+        <option value="{{ v[0] }}">{{ v[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Stream URL (for Live only)</label>
+    <input name="stream_url" class="form-control mb-2">
+
+    <button class="btn btn-success">Add Block</button>
+</form>
+
+<h3 class="mt-4">Auto-Fill Schedule</h3>
+<form method="post" action="{{ url_for('autofill_schedule', channel_id=channel_id) }}" class="border p-3 mb-4">
+    <label>Start Time (UTC)</label>
+    <input type="datetime-local" name="start_time" value="{{ default_start }}" class="form-control mb-2" required>
+    <label>Interval Between (minutes)</label>
+    <input type="number" name="gap_minutes" value="0" class="form-control mb-2">
+    <button class="btn btn-outline-primary">Auto-Populate</button>
+</form>
+
+<h3>Timeline Visualizer</h3>
+<div class="timeline border p-2 bg-light mb-4">
+    <div class="timeline-row d-flex position-relative" style="height: 60px; overflow-x: auto;">
+        {% for s in schedule %}
+            {% set start = s[0]|to_datetime %}
+            {% set end = s[1]|to_datetime %}
+            {% set duration = (end - start).total_seconds() / 60 %}
+            {% set width = duration * 2 %}
+            <div class="text-white text-center border me-1 rounded px-2"
+                 style="min-width: {{ width }}px; background-color:
+                     {% if s[2] == 'vod' %}#0d6efd
+                     {% elif s[2] == 'live' %}#198754
+                     {% elif s[2] == 'ad' %}#dc3545
+                     {% else %}#6c757d{% endif %};">
+                <small class="d-block">{{ s[3] or s[2]|upper }}</small>
+                <small>{{ start.strftime("%H:%M") }} - {{ end.strftime("%H:%M") }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h3>Current Schedule</h3>
+<ul class="list-group">
+    {% for s in schedule %}
+    <li class="list-group-item">
+        <strong>{{ s[3] or s[2]|upper }}</strong> — {{ s[0] }} to {{ s[1] }} ({{ s[2]|upper }})
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

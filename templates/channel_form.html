@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add a New Channel</h2>
+
+    <form method="POST" action="{{ url_for('add_channel') }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Channel Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="channel_type" class="form-label">Channel Type</label>
+            <select class="form-select" id="channel_type" name="channel_type" onchange="toggleRuleSelector()">
+                <option value="manual">Manual Schedule</option>
+                <option value="virtual">Virtual (Tag-Based)</option>
+            </select>
+        </div>
+
+        <div class="mb-3" id="rule_tag_selector" style="display: none;">
+            <label for="rule_tag_id" class="form-label">Rule: Play all videos with this tag</label>
+            <select class="form-select" id="rule_tag_id" name="rule_tag_id">
+                <option value="">-- Select a Tag --</option>
+                {% for tag in tags %}
+                <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Channel</button>
+    </form>
+</div>
+
+<script>
+// NEW: JavaScript to show/hide the tag selector based on channel type
+function toggleRuleSelector() {
+    var channelType = document.getElementById('channel_type').value;
+    var ruleSelector = document.getElementById('rule_tag_selector');
+    if (channelType === 'virtual') {
+        ruleSelector.style.display = 'block';
+    } else {
+        ruleSelector.style.display = 'none';
+    }
+}
+</script>
+
+{% endblock %}

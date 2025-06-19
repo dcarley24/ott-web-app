@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Manage Channels</h2>
+        <a href="{{ url_for('add_channel') }}" class="btn btn-primary">Add New Channel</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for channel in channels %}
+            <tr>
+                <td>{{ channel.id }}</td>
+                <td>{{ channel.name }}</td>
+                <td>
+                    {% if channel.channel_type == 'virtual' %}
+                        <span class="badge bg-success">Virtual</span>
+                        {% if channel.rule_tag %}
+                            <span class="badge bg-secondary">{{ channel.rule_tag.name }}</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="badge bg-info">Manual</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if channel.channel_type == 'manual' %}
+                        <a href="{{ url_for('channel_schedule', channel_id=channel.id) }}" class="btn btn-sm btn-outline-secondary">Schedule</a>
+                    {% endif %}
+
+                    <form action="{{ url_for('delete_channel', channel_id=channel.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this channel?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

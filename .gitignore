@@ -1,0 +1,14 @@
+
+# Database
+ott_platform.db
+
+# Uploaded media files
+uploads/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment (if you have one inside the project)
+venv/
+

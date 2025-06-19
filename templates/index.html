@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="my-4">Live Channels</h2>
+    <div class="row mb-5">
+        {% if channels %}
+            {% for channel in channels %}
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{{ url_for('play_channel', channel_id=channel.id) }}">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body text-center d-flex align-items-center justify-content-center" style="height: 150px;">
+                            <h5 class="card-title">{{ channel.name }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No live channels available.</p>
+        {% endif %}
+    </div>
+
+    <h2 class="my-4">Featured</h2>
+    <div class="row mb-5">
+        {% for v in featured %}
+        <div class="col-md-2 col-6 mb-3">
+            <a href="/watch/{{ v.id }}">
+                <img src="{{ url_for('uploaded_poster_file', filename=v.poster_path.split('/')[-1]) }}" class="img-fluid rounded shadow-sm" alt="{{ v.title }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% for section in sections %}
+        <h3 class="mb-3">{{ section.tag }}</h3>
+        <div class="row mb-4">
+            {% for v in section.videos %}
+            <div class="col-md-2 col-6 mb-3">
+                <a href="/watch/{{ v.id }}">
+                    <img src="{{ url_for('uploaded_poster_file', filename=v.poster_path.split('/')[-1]) }}" class="img-fluid rounded shadow-sm" alt="{{ v.title }}">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid" style="max-width: 960px;">
+
+    <h2 class="mb-3">{{ video['title'] }}</h2>
+
+    {% if video['content_type'] == 'episodic' %}
+        <p class="text-muted">Season 1, Episode 1</p>
+    {% endif %}
+
+    <video width="100%" controls autoplay muted poster="{{ url_for('uploaded_poster_file', filename=video.poster_path.split('/')[-1]) }}">
+        <source src="{{ url_for('uploaded_video_file', filename=video.file_path.split('/')[-1]) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <p class="mt-3">{{ video['description'] }}</p>
+
+    {% if tags %}
+        <p><strong>Tags:</strong>
+        {% for tag in tags %}
+            <span class="badge bg-secondary">{{ tag }}</span>
+        {% endfor %}
+        </p>
+    {% endif %}
+
+    <a href="/" class="btn btn-outline-secondary mt-4">← Back to Home</a>
+
+</div>
+{% endblock %}

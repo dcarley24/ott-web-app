@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ label }}</h2>
+<video controls autoplay width="100%">
+    <source src="{{ stream_url }}" type="application/x-mpegURL">
+</video>
+{% endblock %}
